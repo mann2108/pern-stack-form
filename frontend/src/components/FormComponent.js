@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Navbar, NavbarBrand, Button, Form, FormGroup, Label, Input, Col} from 'reactstrap';
+import {Navbar, NavbarBrand, Button, Form, FormGroup, Label, Input, Col, Table, ButtonToggle} from 'reactstrap';
 
 
 class FormComponent extends Component {
@@ -27,15 +27,44 @@ class FormComponent extends Component {
                 bio : false,
                 dob : false,
                 answer : false,
-            }
+            },
+            detailSection : "none",
+            formSection : "block"
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
+        this.switchToForm = this.switchToForm.bind(this);
     }
 
-
+    switchToForm() {
+        this.setState({
+            firstName : '',
+            lastName : '',
+            phoneNo : '',
+            email : '',
+            password1 : '',
+            password2 : '',
+            bio : '',
+            dob : '',
+            securityQue :'Favourite song?',
+            answer : '',
+            touched : {
+                firstName : false,
+                lastName : false,
+                phoneNo : false,
+                email : false,
+                password1 : false,
+                password2 : false,
+                bio : false,
+                dob : false,
+                answer : false,
+            },
+            detailSection : "none",
+            formSection : "block"
+        });
+    }
 
     handleInputChange(event) {
         const target = event.target;
@@ -47,8 +76,7 @@ class FormComponent extends Component {
         });
         
     }
-
-    handleSubmit(event) {
+    handleSubmit = async (event) => {
         event.preventDefault();
 
         var clientSideVerification = this.state.touched.firstName && this.state.touched.lastName && this.state.touched.phoneNo &&
@@ -83,7 +111,40 @@ class FormComponent extends Component {
         
         
         if(clientSideVerification) {
-            alert("DONE");
+            try {
+
+                const bodyRequest = {
+                    "firstName" : this.state.firstName,
+                    "lastName" : this.state.lastName,
+                    "phoneNo" : this.state.phoneNo,
+                    "email" : this.state.email,
+                    "password" : this.state.password1,
+                    "bio" : this.state.bio,
+                    "dob" : this.state.dob,
+                    "securityQue" : this.state.securityQue,
+                    "answer" : this.state.answer
+                }
+
+                const response = await fetch("http://localhost:5000/user",{
+                    method : "POST",
+                    headers : {"content-type" : "application/json"},
+                    body : JSON.stringify(bodyRequest)
+                });
+                console.log(response.status);
+                if(response.status===200) {
+                    this.setState({
+                        detailSection : "block",
+                        formSection : "none",
+                    });
+                }
+                else {
+
+                }
+
+
+            } catch(err) {
+                console.log(err);
+            }
         }
         else {
             alert("FIRST FILL THE FORM PROPERLY !");
@@ -147,6 +208,9 @@ class FormComponent extends Component {
 
     render() {
 
+        const formSectionDisplay = this.state.formSection;
+        const detailSectionDisplay = this.state.detailSection;
+
         const errors = this.validateState(this.state.firstName, this.state.lastName, this.state.phoneNo, 
             this.state.email, this.state.password1, this.state.password2, this.state.bio, this.state.dob,
             this.state.answer);
@@ -158,7 +222,10 @@ class FormComponent extends Component {
         }
 
         return (
-            <div>
+        
+
+        <div>
+            <div style={{ display : formSectionDisplay}}>
                 <Navbar dark color="primary">
                     <div className="container">
                         <NavbarBrand href="/">Demo Application</NavbarBrand>
@@ -299,14 +366,67 @@ class FormComponent extends Component {
                                         </Button>
                                     </Col>
                                 </FormGroup>
-
                             </Form>
                         </div>
                     </div>
                 </div>
             </div>
+            <div style={{display : detailSectionDisplay}}>
+                <Table hover>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Attributes</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>First Name</td>
+                            <td>{this.state.firstName}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Last Name</td>
+                            <td>{this.state.lastName}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Phone No.</td>
+                            <td>{this.state.phoneNo}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Date Of Birth</td>
+                            <td>{this.state.dob}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">5</th>
+                            <td>Email</td>
+                            <td>{this.state.email}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">6</th>
+                            <td>Bio</td>
+                            <td>{this.state.bio}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">7</th>
+                            <td>Security Question</td>
+                            <td>{this.state.securityQue}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">8</th>
+                            <td>Answer</td>
+                            <td>{this.state.answer}</td>
+                        </tr>
+                    </tbody>
+                </Table>
+                <center><ButtonToggle onClick={this.switchToForm} color="primary">Submit Another Response</ButtonToggle></center>
+            </div>
+        </div>
         );
     }
 }
-
 export default FormComponent;

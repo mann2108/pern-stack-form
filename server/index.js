@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 const pool = require("./db");
+const cors = require("cors");
 
 //minddleware
 app.use(express.json());
-
+app.use(cors());
 app.listen(5000, () => {
     console.log("Server started on port 5000");
 });
@@ -13,7 +14,18 @@ app.listen(5000, () => {
 /// Post
 app.post("/user", async(req,res) => {
     try {
-        const {fname, lname, phno, email, dob, pwd, gender, languages, dateadded} = req.body;
+        
+        const {firstName, lastName, phoneNo, email, dob, bio, password, securityQue, answer, touched} = req.body;
+        // console.log(firstName);
+        // console.log(lastName);
+        // console.log(phoneNo);
+        // console.log(email);
+        // console.log(dob);
+        // console.log(bio);
+        // console.log(password);
+        // console.log(securityQue);
+        // console.log(answer);
+
         var query = "SELECT * from user_data WHERE email = $1";
         const checkValidity = await pool.query(query,[email]);
         
@@ -23,13 +35,13 @@ app.post("/user", async(req,res) => {
             throw err;
         }
         else {
-            const newUser = await pool.query("INSERT INTO user_data (fname,lname,phno,email,dob,pwd,gender,languages,dateadded) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *" ,
-            [fname, lname, phno, email, dob, pwd, gender, languages, dateadded]);
-            res.statusCode = 200;
+            const newUser = await pool.query("INSERT INTO user_data (firstname,lastname,phoneno,email,dob,bio,pwd,securityque,answer) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *" ,
+            [firstName, lastName, parseInt(phoneNo), email, dob, bio, password, securityQue, answer]);
+            res.status(200);
             res.json(newUser.rows[0]);          
         }
-        
     } catch(err) {
+        res.status(403);
         res.json(err);
     }
 });

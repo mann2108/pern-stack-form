@@ -1,17 +1,15 @@
 ** Form Attribute **
 
-First Name (String)
-Last Name (String)
-Ph No. (Number)
-Email (Email)
-Bio. (Text)
-Dob (Date)
-Passowrd (Password)
-Confirm Passowrd (Password)
-Gender (Radio Button)
-Favourite Coding Language (checkbox) Js C++ Python Java (Checkbox)
-Term and conditions (Toggle Button)
-Submit - Botton
+firstName : '',
+lastName : '',
+phoneNo : '',
+email : '',
+password1 : '',
+password2 : '',
+bio : '',
+dob : '',
+securityQue :'Favourite song?',
+answer : '',
 
 ** Components **
 
