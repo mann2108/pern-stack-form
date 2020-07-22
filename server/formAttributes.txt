@@ -1,3 +1,5 @@
+** Form Attribute **
+
 First Name (String)
 Last Name (String)
 Ph No. (Number)
@@ -8,3 +10,12 @@ Passowrd (Password)
 Confirm Passowrd (Password)
 Gender (Radio Button)
 Favourite Coding Language (checkbox) Js C++ Python Java (Checkbox)
+Term and conditions (Toggle Button)
+Submit - Botton
+
+** Components **
+
+Form Component
+Details Component
+Error Component
+
