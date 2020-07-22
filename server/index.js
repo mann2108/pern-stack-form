@@ -19,7 +19,7 @@ app.post("/user", async(req,res) => {
         
         if(checkValidity.rowCount!=0) {
             err = new Error();
-            err.message = "USER ALREADY EXIST WITH THIS EMAIL";
+            err.message = "USER ALREADY EXIST WITH THIS EMAIL ID ( " + email + " )" ;
             throw err;
         }
         else {
