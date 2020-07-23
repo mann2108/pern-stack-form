@@ -32,7 +32,7 @@ class FormComponent extends Component {
             statusSection : "none",
             resetSection : "none",
             statusMessage : "",
-            color : ""
+            color : "",
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -444,7 +444,7 @@ class FormComponent extends Component {
                         </tbody>
                     </Table>
                 </div>
-                <center><ButtonToggle style={{display : resetSection}} onClick={this.switchToForm} color="primary">RESET</ButtonToggle></center>
+                <center><ButtonToggle style={{display : resetSection, margin : 10}} onClick={this.switchToForm} color="primary">RESET</ButtonToggle></center>
             </div>
         );
     }
