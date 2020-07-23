@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const pool = require("./db");
 const cors = require("cors");
+const { response } = require("express");
 
 //minddleware
 app.use(express.json());
@@ -11,37 +12,27 @@ app.listen(5000, () => {
 });
 // ROUTES
 
-/// Post
+// Post
 app.post("/user", async(req,res) => {
     try {
-        
-        const {firstName, lastName, phoneNo, email, dob, bio, password, securityQue, answer, touched} = req.body;
-        // console.log(firstName);
-        // console.log(lastName);
-        // console.log(phoneNo);
-        // console.log(email);
-        // console.log(dob);
-        // console.log(bio);
-        // console.log(password);
-        // console.log(securityQue);
-        // console.log(answer);
+        const {firstName, lastName, phoneNo, email, dob, bio, password, securityQue, answer} = req.body;
 
         var query = "SELECT * from user_data WHERE email = $1";
         const checkValidity = await pool.query(query,[email]);
         
         if(checkValidity.rowCount!=0) {
-            err = new Error();
-            err.message = "USER ALREADY EXIST WITH THIS EMAIL ID ( " + email + " )" ;
-            throw err;
+            res.statusMessage = "USER ALREADY EXIST WITH THIS EMAIL ID ( " + email + " )"
+            res.status(403).end();
         }
         else {
             const newUser = await pool.query("INSERT INTO user_data (firstname,lastname,phoneno,email,dob,bio,pwd,securityque,answer) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING *" ,
             [firstName, lastName, parseInt(phoneNo), email, dob, bio, password, securityQue, answer]);
+            res.statusMessage = "Successfully data inserted !";
             res.status(200);
-            res.json(newUser.rows[0]);          
+            res.json(newUser.rows[0]);
         }
     } catch(err) {
-        res.status(403);
-        res.json(err);
+        res.statusMessage = err.message;
+        res.status(400).end();
     }
 });
