@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Form, FormGroup, Label, Input, Col, Table, ButtonToggle, Alert} from 'reactstrap';
+import {Button, Form, FormGroup, Label, Input, Col, Table, ButtonToggle} from 'reactstrap';
 
 class FormComponent extends Component {
     
@@ -69,7 +69,7 @@ class FormComponent extends Component {
             statusSection : "none",
             resetSection : "none",
             statusMessage : "",
-            color : ""
+            color : "",
         });
     }
 
@@ -141,7 +141,7 @@ class FormComponent extends Component {
                             statusSection : "block",
                             resetSection : "block",
                             statusMessage : result.statusText,
-                            color : "success"
+                            color : "green"
                         });
                     } else {
                         this.setState({
@@ -150,7 +150,7 @@ class FormComponent extends Component {
                             statusSection : "block",
                             resetSection : "block",
                             statusMessage : result.statusText,
-                            color : "danger"
+                            color : "red"
                         });
                     }
             }).catch((err) => {
@@ -160,7 +160,7 @@ class FormComponent extends Component {
                     statusSection : "block",
                     resetSection : "block",
                     statusMessage : err.message,
-                    color : "danger"
+                    color : "red"
                 });
             });
         }
@@ -171,7 +171,7 @@ class FormComponent extends Component {
                 statusSection : "block",
                 resetSection : "none",
                 statusMessage : "Fill the form correctly before submitting again",
-                color : "danger"
+                color : "red"
             });
         }
     }
@@ -234,6 +234,7 @@ class FormComponent extends Component {
         const statusMessage = this.state.statusMessage;
         const resetSection = this.state.resetSection;
         const color = this.state.color;
+        
 
         const errors = this.validateState(this.state.firstName, this.state.lastName, this.state.phoneNo, 
             this.state.email, this.state.password1, this.state.password2, this.state.bio, this.state.dob,
@@ -246,11 +247,11 @@ class FormComponent extends Component {
 
         return (
             <div>
-                <center><Alert style={{display : statusSection}} color={color}>{statusMessage}</Alert></center>
+                <center><div style={{backgroundColor : color, display : statusSection, padding : 15, color:"white"}}>{statusMessage}</div></center>
                 <div style={{ display : formSection}}>
                     <div className="container" style={{marginLeft : 10, marginTop : 30}}>
                         <div className="row">
-                            <div className="col-8">
+                            <div className="col">
                                 <Form onSubmit={this.handleSubmit}>
                                     <FormGroup row>
                                         <Label md={2}>First Name</Label>
