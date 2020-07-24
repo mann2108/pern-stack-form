@@ -6,13 +6,15 @@ const { response } = require("express");
 
 //minddleware
 app.use(express.json());
+
+// Handling cross origin resource sharing (localhost:3000 and localhost:5000)
 app.use(cors());
+
 app.listen(5000, () => {
     console.log("Server started on port 5000");
 });
-// ROUTES
 
-// Post
+// localhost:5000/user Post Route
 app.post("/user", async(req,res) => {
     try {
         const {firstName, lastName, phoneNo, email, dob, bio, password, securityQue, answer} = req.body;

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Button, Form, FormGroup, Label, Input, Col, Table, ButtonToggle} from 'reactstrap';
 
+
+// Form Component
 class FormComponent extends Component {
     
     constructor(props) {
@@ -41,6 +43,7 @@ class FormComponent extends Component {
         this.switchToForm = this.switchToForm.bind(this);
     }
 
+    // Submit Another Response (Switching back to form component)
     switchToForm() {
         this.setState({
             firstName : '',
@@ -73,6 +76,7 @@ class FormComponent extends Component {
         });
     }
 
+    // Updating state on input change
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
@@ -83,18 +87,27 @@ class FormComponent extends Component {
         });
         
     }
+
+    // Handling submit action
     handleSubmit = async (event) => {
         event.preventDefault();
-
+        
+        // Confirmation prompt
+        if(!window.confirm("Are you sure?"))return;
+        
+        // A boolean variable use to check that atleast one time all the input fields are touched
         var clientSideVerification = this.state.touched.firstName && this.state.touched.lastName && this.state.touched.phoneNo &&
         this.state.touched.email && this.state.password1 && this.state.password2 && this.state.bio && this.state.dob && this.state.answer ? true : false;
         
+        // If all field are touched then ->
         if(clientSideVerification) {
 
+            // Validate the all inputs again
             const errors = this.validateState(this.state.firstName, this.state.lastName, this.state.phoneNo, 
                 this.state.email, this.state.password1, this.state.password2, this.state.bio, this.state.dob,
                 this.state.answer);
-
+            
+            // If any input return an non empty error then client side validations fails
             if(errors.firstName!=="") {
                 clientSideVerification = false;
             } else if(errors.lastName!=="") {
@@ -115,8 +128,11 @@ class FormComponent extends Component {
                 clientSideVerification = false;
             }
         }
-                
+        
+        // If clientSideVerification variable is still true then proceed to post a request
         if(clientSideVerification) {
+
+            // Creating bodyRequest
             const bodyRequest = {
                 "firstName" : this.state.firstName,
                 "lastName" : this.state.lastName,
@@ -129,11 +145,14 @@ class FormComponent extends Component {
                 "answer" : this.state.answer
             }
 
+            // Wait untill the response came back (Synchronous Action)
             await fetch("http://localhost:5000/user",{
                 method : "POST",
                 headers : {"content-type" : "application/json"},
                 body : JSON.stringify(bodyRequest)
             }).then((result) => {
+
+                    // Response status return OK(200) status
                     if(result.status===200) {
                         this.setState({
                             detailSection : "block",
@@ -144,6 +163,8 @@ class FormComponent extends Component {
                             color : "green"
                         });
                     } else {
+
+                        // Response status return FORBIDEN(403) status (user already exist)
                         this.setState({
                             detailSection : "none",
                             formSection : "none",
@@ -154,6 +175,8 @@ class FormComponent extends Component {
                         });
                     }
             }).catch((err) => {
+                
+                // Error in making request with server
                 this.setState({
                     detailSection : "none",
                     formSection : "none",
@@ -164,6 +187,7 @@ class FormComponent extends Component {
                 });
             });
         }
+        // If validations fails
         else {
             this.setState({
                 detailSection : "none",
@@ -176,12 +200,14 @@ class FormComponent extends Component {
         }
     }
 
+    // Updated the touched state to true if any field is touched
     handleBlur = (field) => (evt) => {
         this.setState({
             touched : { ...this.state.touched, [field]: true}
         });
     }
 
+    // Input validations
     validateState(firstName, lastName, phoneNo, email, password1, password2, bio, dob, answer) {
         const errors = {
             firstName : '',
@@ -201,11 +227,14 @@ class FormComponent extends Component {
         if(this.state.touched.lastName && lastName.length<=2)
             errors.lastName = "Last Name should be atleast 3 characters long";
 
-        if(this.state.touched.phoneNo && phoneNo.length!==10 && phoneNo.split("").filter(x=>parseInt(x)>=0 && parseInt(x)<=9).length!==10)
+        if(this.state.touched.phoneNo && phoneNo.length!==10)
             errors.phoneNo = "Phone no. is  invalid it should be exact 10 digits long";
-
-        if(this.state.touched.email && email.split("").filter(x=>x==='@').length!==1)
+        
+        // Email pattern regex
+        var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        if(this.state.touched.email && !emailPattern.test(this.state.email)) {
             errors.email = "Please enter valid email addressed";
+        }
 
         if(this.state.touched.password1 && password1.length<=8)
             errors.password1 = "password is not satisfying all the required criteria";
@@ -444,7 +473,7 @@ class FormComponent extends Component {
                         </tbody>
                     </Table>
                 </div>
-                <center><ButtonToggle style={{display : resetSection, margin : 10}} onClick={this.switchToForm} color="primary">RESET</ButtonToggle></center>
+                <center><ButtonToggle style={{display : resetSection, margin : 10}} onClick={this.switchToForm} color="primary">Submit Another Response</ButtonToggle></center>
             </div>
         );
     }
