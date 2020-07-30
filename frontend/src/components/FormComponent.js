@@ -145,7 +145,6 @@ class FormComponent extends Component {
                 "answer" : this.state.answer
             }
 
-            // Wait untill the response came back (Synchronous Action)
             await fetch("http://localhost:5000/user",{
                 method : "POST",
                 headers : {"content-type" : "application/json"},
