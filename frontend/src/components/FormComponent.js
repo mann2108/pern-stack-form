@@ -273,6 +273,8 @@ class FormComponent extends Component {
             fontSize : '12px'
         }
 
+        
+
         return (
             <div>
                 <center><div style={{backgroundColor : color, display : statusSection, padding : 15, color:"white"}}>{statusMessage}</div></center>
@@ -282,11 +284,12 @@ class FormComponent extends Component {
                             <div className="col">
                                 <Form onSubmit={this.handleSubmit}>
                                     <FormGroup row>
-                                        <Label md={2}>First Name</Label>
+                                        <Label md={2}>First Name<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="text" id="firstName" name="firstName"
                                                 placeholder="First Name"
                                                 value={this.state.firstname}
+                                                autoComplete = "off"
                                                 onChange={this.handleInputChange}
                                                 onBlur = {this.handleBlur('firstName')} />
                                                 <p style={feedback}>{errors.firstName}</p>
@@ -294,10 +297,11 @@ class FormComponent extends Component {
                                     </FormGroup>
                                     
                                     <FormGroup row>
-                                        <Label md={2}>Last Name</Label>
+                                        <Label md={2}>Last Name<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="text" id="lastName" name="lastName"
                                                 placeholder="Last Name"
+                                                autoComplete = "off"
                                                 value={this.state.lastName}
                                                 onChange={this.handleInputChange} 
                                                 onBlur = {this.handleBlur('lastName')} />
@@ -306,10 +310,11 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Phone No.</Label>
+                                        <Label md={2}>Phone No.<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="number" id="phoneNo" name="phoneNo"
                                                 placeholder="Phone No."
+                                                autoComplete = "off"
                                                 value={this.state.phoneNo}
                                                 onChange={this.handleInputChange} 
                                                 onBlur = {this.handleBlur('phoneNo')} />
@@ -318,10 +323,11 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Birth Date</Label>
+                                        <Label md={2}>Birth Date<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="date" id="dob" name="dob"
                                                 placeholder="Date of Birth"
+                                                autoComplete = "off"
                                                 value={this.state.dob}
                                                 onChange={this.handleInputChange} 
                                                 onBlur = {this.handleBlur('dob')} />
@@ -330,10 +336,11 @@ class FormComponent extends Component {
                                     </FormGroup>
                                 
                                     <FormGroup row>
-                                        <Label md={2}>Email</Label>
+                                        <Label md={2}>Email<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="email" id="email" name="email"
                                                 placeholder="Email"
+                                                autoComplete = "off"
                                                 value={this.state.email}
                                                 onChange={this.handleInputChange} 
                                                 onBlur = {this.handleBlur('email')} />
@@ -342,10 +349,11 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Password</Label>
+                                        <Label md={2}>Password<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="password" id="password1" name="password1" 
                                             placeholder="Password" 
+                                            autoComplete = "off"
                                             value={this.state.password1}
                                             onChange={this.handleInputChange}
                                             onBlur = {this.handleBlur('password1')} />
@@ -354,10 +362,11 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Confirm Password</Label>
+                                        <Label md={2}>Verify Password<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="password" id="password2" name="password2" 
                                             placeholder="Confirm Password" 
+                                            autoComplete = "off"
                                             value={this.state.password2}
                                             onChange={this.handleInputChange}
                                             onBlur = {this.handleBlur('password2')} />
@@ -366,7 +375,7 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Security Question</Label>
+                                        <Label md={2}>Question<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="select" name="securityQue" id="securityQue" value={this.state.securityQue} onChange={this.handleInputChange} >
                                                 <option>Favourite song?</option>
@@ -379,9 +388,10 @@ class FormComponent extends Component {
                                     </FormGroup>
                                     
                                     <FormGroup row>
-                                        <Label md={2}>Answer</Label>
+                                        <Label md={2}>Answer<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="text" id="answer" name="answer"
+                                                autoComplete = "off"
                                                 placeholder="Security Question Answer"
                                                 value={this.state.answer}
                                                 onChange={this.handleInputChange} 
@@ -391,9 +401,10 @@ class FormComponent extends Component {
                                     </FormGroup>
 
                                     <FormGroup row>
-                                        <Label md={2}>Bio</Label>
+                                        <Label md={2}>Bio<span style={{color:'red'}}> *</span></Label>
                                         <Col>
                                             <Input type="textarea" id="bio" name="bio"
+                                                autoComplete = "off"
                                                 rows="12"
                                                 value={this.state.bio}
                                                 onChange={this.handleInputChange}

@@ -4,14 +4,35 @@ const pool = require("./db");
 const cors = require("cors");
 const { response } = require("express");
 const path = require('path');
+
 const PORT=process.env.PORT||5000;
+
 app.use(express.static(path.join(__dirname,'../frontend','build')));
+
+app.use(express.json());
+
+app.use(cors());
+
+app.listen(PORT);
+
+// app.listen(5000, () => {
+//     console.log("Server started on port 5000");
+// });
+
+app.get("/user", async(req,res) => {
+    try {
+        var query = "SELECT* from user_data";
+        const data = await pool.query(query);
+        res.status(200).json(data.rows);
+    } catch(err) {
+        console.log(err);
+    }
+});
+
 app.get('/*',function(req,res){
     res.sendFile(path.join(__dirname,"../frontend",'build','index.html'));
 });
-app.use(express.json());
-app.use(cors());
-app.listen(PORT);
+
 app.post("/user", async(req,res) => {
     try {
         const {firstName, lastName, phoneNo, email, dob, bio, password, securityQue, answer} = req.body;
@@ -21,7 +42,6 @@ app.post("/user", async(req,res) => {
         
         if(checkValidity.rowCount!=0) {
             res.statusMessage = "USER ALREADY EXIST WITH THIS EMAIL ID ( " + email + " )"
-            res.body="mann";
             res.status(403).end();
         }
         else {
@@ -29,12 +49,9 @@ app.post("/user", async(req,res) => {
             [firstName, lastName, parseInt(phoneNo), email, dob, bio, password, securityQue, answer]);
             res.statusMessage = "Successfully data inserted !";
             res.status(200);
-            res.body="mann";
-            res.json(newUser.rows[0]);
         }
     } catch(err) {
         res.statusMessage = err.message;
-        res.body="mann";
         res.status(400).end();
     }
 });

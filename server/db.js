@@ -4,11 +4,11 @@ const pool = new Pool({
     
     // LOCALHOST
 
-    /*user : "postgres",
+    user : "postgres",
     password: "Mann@2108",
     host: "localhost",
     port: 5432,
-    database: "demoapp"*/
+    database: "demoapp"
 
     // AWS HOST
 
